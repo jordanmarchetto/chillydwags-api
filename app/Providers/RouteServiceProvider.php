@@ -74,5 +74,11 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/chillydwags-api.php'));
+
+        Route::prefix('lifting-log') //formerly: prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/lifting-log.php'));
+				
     }
 }

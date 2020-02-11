@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
 use DB;
+use Log;
 class AuthController extends Controller
 {
 	/**
@@ -38,6 +39,7 @@ class AuthController extends Controller
 				'password' => bcrypt($request->password)
 			]);
 		}
+		//Log::debug('User created: un('. $request->email . '), pw('.$request->password.') ');
 		$user->save();
 		return response()->json([
 			'message' => 'Successfully created user!'
@@ -62,10 +64,14 @@ class AuthController extends Controller
 			'remember_me' => 'boolean'
 		]);
 		$credentials = request(['email', 'password']);
-		if(!Auth::attempt($credentials))
+
+		Log::debug('Login attempt: un('. $credentials['email'] . '), pw('.$credentials['password'].') ');
+		if(!Auth::attempt($credentials)){
+			Log::debug('Failed creds: un('. $credentials['email'] . '), pw('.$credentials['password'].') ');
 			return response()->json([
 				'message' => 'Unauthorized'
 			], 401);
+		}
 		$user = $request->user();
 		$tokenResult = $user->createToken('Personal Access Token');
 		$token = $tokenResult->token;

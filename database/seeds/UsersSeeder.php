@@ -19,7 +19,14 @@ class UsersSeeder extends Seeder
 			'name' => "Jordan",
 			'email' => "jordan.marchetto@gmail.com",
 			'password' => bcrypt($secret),
-			'type' => "chillydwags"
+			'type' => "coach"
+		]);
+		$user->save();
+		$user = new User([
+			'name' => "Tester",
+			'email' => "test@test.test",
+			'password' => bcrypt($secret),
+			'type' => "chillydwag"
 		]);
 		$user->save();
 	}
